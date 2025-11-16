@@ -194,5 +194,6 @@ O painel dispara ações no player:
 ---
 
 # 💜 Desenvolvido por  
-**Videobes Multimídia + GPTzílldo** (2025)
+**Christian Simon + GPTzílldo**
+ Videobes Multimídia (2025)
 
