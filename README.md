@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/livevideobes_intro.jpg" width="900" alt="LiveVideobes Player Intro"/>
+</p>
+
 # 💜 LiveVideobes Player – Android Kiosk Digital Signage
 
 O **LiveVideobes Player** é o aplicativo Android oficial da Videobes para mídia indoor, rodando em modo *kiosk* profissional. Ele transforma TVs Android, tablets e TV Boxes em painéis de exibição inteligentes totalmente administrados pelo painel LiveVideobes (via n8n + API).
@@ -194,6 +198,6 @@ O painel dispara ações no player:
 ---
 
 # 💜 Desenvolvido por  
-**Christian Simon + GPTzílldo**
+**Christian Simon + GPTzílldo**</br>
  Videobes Multimídia (2025)
 
