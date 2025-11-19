@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="260dp"
+    android:height="90dp"
+    android:viewportWidth="1125"
+    android:viewportHeight="375">
+
+    <!-- LOGO LIVE VIDEOBES (versão chapada) -->
+
+    <!-- Path 1 -->
+    <path
+        android:fillColor="#810EF8"
+        android:pathData="M158.8 275.9h-26.3V124.1h26.3v151.8z"/>
+
+    <!-- Path 2 -->
+    <path
+        android:fillColor="#810EF8"
+        android:pathData="M229.1 275.9h-26.3V124.1h26.3v151.8z"/>
+
+    <!-- Path 3 -->
+    <path
+        android:fillColor="#810EF8"
+        android:pathData="M299.4 275.9h-26.3V124.1h26.3v151.8z"/>
+
+    <!-- Path 4 - Quadrado LIVE -->
+    <path
+        android:fillColor="#810EF8"
+        android:pathData="M420.7 275.9h-92.5V183.4h92.5v92.5z"/>
+
+    <!-- Path 5 – texto “live” estilizado interno -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M354.8 239.8v-42h17.8v42h-17.8zM389.6 239.8v-42h17.8v42h-17.8zM424.3 239.8v-42h17.8v42h-17.8z"/>
+
+    <!-- Path 6 – Texto VIDEOBES -->
+    <path
+        android:fillColor="#810EF8"
+        android:pathData="M505.2 275.9h-20.4l-36.2-99h22.1l24.2 71.1 24.2-71.1h22.1l-36.0 99z"/>
+
+    <path
+        android:fillColor="#810EF8"
+        android:pathData="M563.4 275.9h-20.7V124.1h20.7v151.8z"/>
+
+    <path
+        android:fillColor="#810EF8"
+        android:pathData="M596.2 275.9V124.1h77.4v22h-54.9v40.1h49.3v22h-49.3v45.6h55.6v22h-78.1z"/>
+
+    <path
+        android:fillColor="#810EF8"
+        android:pathData="M741.8 277c-29.4 0-44.4-19.6-44.4-49.8V124.1h20.7v102.3c0 20.3 7.7 30.9 23.7 30.9 16 0 23.7-10.6 23.7-30.9V124.1h20.7v103.1c0 30.2-15 49.8-44.4 49.8z"/>
+
+    <path
+        android:fillColor="#810EF8"
+        android:pathData="M826.2 275.9V124.1h74.7v22h-54v37.7H895v22h-48.1v48h55.3v22h-76z"/>
+
+    <path
+        android:fillColor="#810EF8"
+        android:pathData="M940.3 275.9V124.1h46.8c31.8 0 53.9 15 53.9 51.3 0 30.7-16.6 50.7-50 50.7H961v49.8h-20.7zm20.7-66.7h28.0c19.7 0 29.3-9.9 29.3-29.7 0-22.1-14.0-29.5-33.0-29.5h-24.3v59.2z"/>
+
+</vector>
