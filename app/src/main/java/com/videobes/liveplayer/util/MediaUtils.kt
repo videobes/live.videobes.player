@@ -1,33 +1,29 @@
 package com.videobes.liveplayer.util
 
-import com.videobes.liveplayer.model.MediaItem
+import com.videobes.liveplayer.model.MediaFile
 import java.io.File
 
 object MediaUtils {
 
-    private val supportedVideos = listOf("mp4", "mov")
-    private val supportedImages = listOf("jpg", "jpeg", "png")
+    private val videos = listOf("mp4", "mov", "avi", "mkv")
+    private val images = listOf("jpg", "jpeg", "png")
 
-    fun loadMedia(): List<MediaItem> {
-        val mediaDir = File("/storage/emulated/0/LiveVideobes/media")
-        if (!mediaDir.exists()) mediaDir.mkdirs()
+    fun loadMedia(): List<MediaFile> {
+        val dir = File("/storage/emulated/0/LiveVideobes/media")
+        if (!dir.exists()) dir.mkdirs()
 
-        val files = mediaDir.listFiles() ?: return emptyList()
+        val files = dir.listFiles() ?: return emptyList()
 
-        val items = files.mapNotNull { file ->
-            val ext = file.extension.lowercase()
+        val list = files.mapNotNull { f ->
+            val ext = f.extension.lowercase()
 
             when {
-                supportedVideos.contains(ext) ->
-                    MediaItem(file, "video")
-
-                supportedImages.contains(ext) ->
-                    MediaItem(file, "image", duration = 6)
-
+                videos.contains(ext) -> MediaFile(f, isVideo = true)
+                images.contains(ext) -> MediaFile(f, isVideo = false, duration = 6)
                 else -> null
             }
         }
 
-        return items.shuffled()
+        return list.shuffled()
     }
 }
