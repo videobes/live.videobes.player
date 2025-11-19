@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/black">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:padding="32dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!-- LOGO -->
+        <ImageView
+            android:id="@+id/logoLarge"
+            android:src="@drawable/logo_livevideobes"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:layout_marginBottom="40dp" />
+
+        <!-- TÍTULO -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Configuração Inicial"
+            android:textColor="#FFFFFF"
+            android:textSize="22sp"
+            android:layout_marginBottom="24dp" />
+
+        <!-- SELEÇÃO DE WI-FI -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Rede Wi-Fi"
+            android:textColor="#cccccc"
+            android:textSize="14sp"
+            android:layout_marginBottom="8dp" />
+
+        <Spinner
+            android:id="@+id/spinnerWifi"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="#222222"
+            android:padding="8dp"
+            android:layout_marginBottom="24dp" />
+
+        <!-- CAMPO SENHA -->
+        <EditText
+            android:id="@+id/inputWifiPassword"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:hint="Senha do Wi-Fi"
+            android:textColor="#ffffff"
+            android:hintTextColor="#777777"
+            android:background="#222222"
+            android:padding="12dp"
+            android:inputType="textPassword"
+            android:layout_marginBottom="24dp" />
+
+        <!-- SELEÇÃO DE PASTA INTERNA -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pasta de Mídia"
+            android:textColor="#cccccc"
+            android:textSize="14sp"
+            android:layout_marginBottom="8dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="#222222"
+            android:padding="12dp"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="24dp">
+
+            <TextView
+                android:id="@+id/mediaFolderPath"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Nenhuma pasta escolhida"
+                android:textColor="#bbbbbb"
+                android:layout_weight="1" />
+
+            <Button
+                android:id="@+id/btnChooseFolder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Escolher" />
+        </LinearLayout>
+
+        <!-- ID DO CANAL (opção 1.2) -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ID do Canal"
+            android:textColor="#cccccc"
+            android:textSize="14sp"
+            android:layout_marginBottom="8dp" />
+
+        <EditText
+            android:id="@+id/inputChannelId"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:hint="Ex: alkuwait"
+            android:textColor="#ffffff"
+            android:hintTextColor="#777777"
+            android:background="#222222"
+            android:padding="12dp"
+            android:layout_marginBottom="32dp" />
+
+        <!-- BOTÃO SALVAR -->
+        <Button
+            android:id="@+id/btnSaveConfig"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Salvar e Iniciar"
+            android:textSize="18sp"
+            android:background="#810EF8"
+            android:textColor="#FFFFFF"
+            android:padding="16dp" />
+
+        <!-- MENU SECRETO (três toques ou CTRL+Z) -->
+        <TextView
+            android:id="@+id/hiddenMenuHint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" "
+            android:textColor="#333333"
+            android:layout_marginTop="40dp"/>
+
+    </LinearLayout>
+
+</ScrollView>
