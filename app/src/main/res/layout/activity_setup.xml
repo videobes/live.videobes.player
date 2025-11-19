@@ -20,6 +20,16 @@
             android:adjustViewBounds="true"
             android:layout_marginBottom="40dp" />
 
+<TextView
+    android:id="@+id/connectionStatus"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Detectando conexão…"
+    android:textColor="#bbbbbb"
+    android:textSize="14sp"
+    android:layout_marginBottom="24dp"/>
+
+        
         <!-- TÍTULO -->
         <TextView
             android:layout_width="wrap_content"
