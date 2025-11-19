@@ -17,6 +17,7 @@ import android.content.IntentFilter
 
 class SetupActivity : AppCompatActivity() {
 
+    private lateinit var secret: SecretCode
     private lateinit var usbReceiver: UsbReceiver
 
     override fun onCreate(savedInstanceState: Bundle?) {
