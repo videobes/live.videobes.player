@@ -38,6 +38,12 @@ class PlayerActivity : AppCompatActivity() {
         KioskHelper.apply(window)
         setContentView(R.layout.activity_player)
 
+        try {
+            BootUtils.requestIgnoreBatteryOptimizations(this)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
         playerView = findViewById(R.id.playerView)
         setupOverlay = findViewById(R.id.setupOverlay)
         btnWifi = findViewById(R.id.btnWifi)
@@ -46,6 +52,15 @@ class PlayerActivity : AppCompatActivity() {
 
         player = ExoPlayer.Builder(this).build()
         playerView.player = player
+
+        // Listener ÚNICO — evita duplicações
+        player.addListener(object : Player.Listener {
+            override fun onPlaybackStateChanged(state: Int) {
+                if (state == Player.STATE_ENDED) {
+                    playNext()
+                }
+            }
+        })
 
         btnWifi.setOnClickListener { startActivity(Intent(Settings.ACTION_WIFI_SETTINGS)) }
         btnPickFolder.setOnClickListener { chooseFolder() }
@@ -63,20 +78,20 @@ class PlayerActivity : AppCompatActivity() {
     private fun playIntro(then: (() -> Unit)? = null) {
         val introUri = Uri.parse("rawresource://${packageName}/${R.raw.live_videobes_intro}")
         val item = MediaItem.fromUri(introUri)
+
+        player.stop()
+        player.clearMediaItems()
         player.setMediaItem(item)
         player.repeatMode = Player.REPEAT_MODE_OFF
         player.prepare()
         player.playWhenReady = true
 
-        then?.let { callback ->
-            player.addListener(object : Player.Listener {
-                override fun onPlaybackStateChanged(state: Int) {
-                    if (state == Player.STATE_ENDED) {
-                        player.removeListener(this)
-                        callback()
-                    }
+        if (then != null) {
+            handler.postDelayed({
+                if (player.playbackState == Player.STATE_ENDED) {
+                    then()
                 }
-            })
+            }, 12000)
         }
     }
 
@@ -123,45 +138,54 @@ class PlayerActivity : AppCompatActivity() {
     private fun playNext() {
         if (mediaList.isEmpty()) return
 
+        player.stop()
+        player.clearMediaItems()
+
         val uri = mediaList[index]
         index = (index + 1) % mediaList.size
 
         val name = fileName(uri)
-        val img = name.endsWith(".jpg") || name.endsWith(".jpeg") || name.endsWith(".png")
+        val isImage = name.endsWith(".jpg") || name.endsWith(".jpeg") || name.endsWith(".png")
 
-        if (img) playImage() else playVideo(uri)
+        if (isImage) playImage() else playVideo(uri)
     }
 
     private fun playVideo(uri: Uri) {
+        playerView.visibility = View.VISIBLE
+
         val item = MediaItem.fromUri(uri)
+        player.stop()
+        player.clearMediaItems()
         player.setMediaItem(item)
         player.repeatMode = Player.REPEAT_MODE_OFF
         player.prepare()
         player.playWhenReady = true
-
-        player.addListener(object : Player.Listener {
-            override fun onPlaybackStateChanged(state: Int) {
-                if (state == Player.STATE_ENDED) {
-                    player.removeListener(this)
-                    playNext()
-                }
-            }
-        })
     }
 
     private fun playImage() {
-        handler.postDelayed({ playNext() }, 10000)
+        playerView.visibility = View.GONE
+
+        handler.postDelayed({
+            playerView.visibility = View.VISIBLE
+            playNext()
+        }, 10000)
     }
 
     private fun fileName(uri: Uri): String {
-        var name = ""
-        contentResolver.query(uri, null, null, null, null)?.use {
-            if (it.moveToFirst()) {
-                val idx = it.getColumnIndex(OpenableColumns.DISPLAY_NAME)
-                if (idx >= 0) name = it.getString(idx)
+        return try {
+            var name: String? = null
+
+            contentResolver.query(uri, null, null, null, null)?.use {
+                if (it.moveToFirst()) {
+                    val idx = it.getColumnIndex(OpenableColumns.DISPLAY_NAME)
+                    if (idx >= 0) name = it.getString(idx)
+                }
             }
+
+            name ?: uri.lastPathSegment ?: "file"
+        } catch (e: Exception) {
+            "file"
         }
-        return name.lowercase()
     }
 
     private fun showAdmin() {
