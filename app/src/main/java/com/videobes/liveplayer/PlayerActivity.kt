@@ -53,11 +53,11 @@ class PlayerActivity : AppCompatActivity() {
         // Se você estiver usando SetupActivity para aceitar o Kiosk,
         // pode descomentar este bloco:
         //
-        // if (!Prefs.isKioskAccepted(this)) {
-        //     startActivity(Intent(this, SetupActivity::class.java))
-        //     finish()
-        //     return
-        // }
+        if (!Prefs.isKioskAccepted(this)) {
+            startActivity(Intent(this, SetupActivity::class.java))
+            finish()
+            return
+        }
 
         // mantém tela ligada, mostra mesmo com lock e liga a tela
         window.addFlags(
