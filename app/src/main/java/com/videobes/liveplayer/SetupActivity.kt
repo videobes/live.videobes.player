@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.CheckBox
-import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 
 class SetupActivity : AppCompatActivity() {
@@ -18,8 +17,8 @@ class SetupActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_setup)
 
-        // Se já aceitou kiosk uma vez, pula
-        if (Prefs.isSetupDone(this)) {
+        // Se o usuário já aceitou o modo kiosk, pula direto
+        if (Prefs.isKioskAccepted(this)) {
             startActivity(Intent(this, PlayerActivity::class.java))
             finish()
             return
@@ -29,6 +28,10 @@ class SetupActivity : AppCompatActivity() {
         checkDecline = findViewById(R.id.checkDecline)
         btnContinue = findViewById(R.id.btnContinue)
         btnAbort = findViewById(R.id.btnAbort)
+
+        // Começam desabilitados
+        btnContinue.isEnabled = false
+        btnAbort.isEnabled = false
 
         checkAccept.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
@@ -51,11 +54,11 @@ class SetupActivity : AppCompatActivity() {
         }
 
         btnContinue.setOnClickListener {
-            Prefs.setSetupDone(this, true)
-            Prefs.setKioskEnabled(this, true)
+            // Salva que o usuário ACEITOU o modo kiosk
+            Prefs.setKioskAccepted(this, true)
 
-            val i = Intent(this, PlayerActivity::class.java)
-            startActivity(i)
+            // Agora vai para o Player, onde será feita configuração de mídia
+            startActivity(Intent(this, PlayerActivity::class.java))
             finish()
         }
 
