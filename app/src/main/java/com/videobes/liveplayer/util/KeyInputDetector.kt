@@ -1,26 +1,47 @@
 package com.videobes.liveplayer.util
 
+/**
+ * Detecta sequências numéricas do tipo:
+ *  - *111 (debug)
+ *  - *222 (abrir overlay de setup)
+ *  - *999 (menu admin)
+ *  - *000 (forçar relock no kiosk)
+ *
+ * PlayerActivity apenas recebe o código “limpo”.
+ */
 class KeyInputDetector(
-    private val onCodeDetected: (String) -> Unit
+    private val onDetected: (String) -> Unit
 ) {
 
-    private var buffer = StringBuilder()
+    private val buffer = StringBuilder()
 
     fun input(char: Char) {
         buffer.append(char)
 
-        // Mantém o buffer curto
+        // Limita o tamanho do buffer para não crescer infinitamente
         if (buffer.length > 5) {
             buffer.delete(0, buffer.length - 5)
         }
 
-        val code = buffer.toString()
+        val seq = buffer.toString()
 
-        when (code) {
-            "*111" -> onCodeDetected("*111")   // Debug
-            "*222" -> onCodeDetected("*222")   // Avançado
-            "*999" -> onCodeDetected("*999")   // Unlock kiosk
-            "*000" -> onCodeDetected("*000")   // Lock kiosk
+        when {
+            seq.endsWith("*111") -> {
+                buffer.clear()
+                onDetected("*111")
+            }
+            seq.endsWith("*222") -> {
+                buffer.clear()
+                onDetected("*222")
+            }
+            seq.endsWith("*999") -> {
+                buffer.clear()
+                onDetected("*999")
+            }
+            seq.endsWith("*000") -> {
+                buffer.clear()
+                onDetected("*000")
+            }
         }
     }
 }
