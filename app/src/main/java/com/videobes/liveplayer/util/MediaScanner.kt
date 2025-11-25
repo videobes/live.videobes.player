@@ -1,68 +1,56 @@
 package com.videobes.liveplayer.util
 
-import android.content.ContentResolver
 import android.content.Context
 import android.net.Uri
 import android.provider.DocumentsContract
+import android.util.Log
+import androidx.documentfile.provider.DocumentFile
 
 object MediaScanner {
 
-    private val validExtensions = listOf(
-        ".mp4", ".mkv", ".mov", ".avi",
-        ".jpg", ".jpeg", ".png", ".webp"
-    )
+    private val videoExt = listOf("mp4", "mov", "mkv", "avi", "webm")
+    private val imageExt = listOf("jpg", "jpeg", "png", "webp")
 
-    fun scan(ctx: Context, treeUri: Uri): List<Uri> {
-        val result = mutableListOf<Uri>()
+    /**
+     * Scaneia a pasta de mídia escolhida pelo usuário via SAF.
+     */
+    fun scan(ctx: Context, folderUri: Uri): List<Uri> {
+        return try {
+            val root = DocumentFile.fromTreeUri(ctx, folderUri)
+                ?: return emptyList()
 
-        try {
-            val childrenUri = DocumentsContract.buildChildDocumentsUriUsingTree(
-                treeUri,
-                DocumentsContract.getTreeDocumentId(treeUri)
-            )
+            val list = mutableListOf<Uri>()
+            collectFilesRecursively(root, list)
 
-            val resolver: ContentResolver = ctx.contentResolver
+            // embaralha tudo antes de enviar ao player
+            list.shuffled()
+        } catch (e: Exception) {
+            Log.e("MediaScanner", "Erro ao escanear mídia", e)
+            emptyList()
+        }
+    }
 
-            resolver.query(
-                childrenUri,
-                arrayOf(
-                    DocumentsContract.Document.COLUMN_DOCUMENT_ID,
-                    DocumentsContract.Document.COLUMN_DISPLAY_NAME,
-                    DocumentsContract.Document.COLUMN_MIME_TYPE
-                ),
-                null, null, null
-            )?.use { cursor ->
+    /**
+     * Varredura recursiva segura usando DocumentFile.
+     * Suporta subpastas infinitas.
+     */
+    private fun collectFilesRecursively(dir: DocumentFile, out: MutableList<Uri>) {
+        val children = dir.listFiles()
 
-                val idxName = cursor.getColumnIndex(DocumentsContract.Document.COLUMN_DISPLAY_NAME)
-                val idxMime = cursor.getColumnIndex(DocumentsContract.Document.COLUMN_MIME_TYPE)
-                val idxDocId = cursor.getColumnIndex(DocumentsContract.Document.COLUMN_DOCUMENT_ID)
+        for (file in children) {
+            if (file.isDirectory) {
+                collectFilesRecursively(file, out)
+            } else if (file.isFile && !file.name.isNullOrBlank()) {
 
-                while (cursor.moveToNext()) {
-                    val name = cursor.getString(idxName)?.lowercase() ?: ""
-                    val mime = cursor.getString(idxMime) ?: ""
-                    val docId = cursor.getString(idxDocId) ?: continue
+                val name = file.name!!.lowercase()
 
-                    val fileUri = DocumentsContract.buildDocumentUriUsingTree(
-                        treeUri,
-                        docId
-                    )
+                val isVideo = videoExt.any { name.endsWith(it) }
+                val isImage = imageExt.any { name.endsWith(it) }
 
-                    // Subpastas
-                    if (mime == DocumentsContract.Document.MIME_TYPE_DIR) {
-                        result += scan(ctx, fileUri)
-                        continue
-                    }
-
-                    // Filtrar somente midias válidas
-                    if (validExtensions.any { name.endsWith(it) }) {
-                        result += fileUri
-                    }
+                if (isVideo || isImage) {
+                    out.add(file.uri)
                 }
             }
-        } catch (e: Exception) {
-            e.printStackTrace()
         }
-
-        return result
     }
 }
