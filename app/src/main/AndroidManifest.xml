@@ -5,9 +5,9 @@
     <!-- PERMISSÕES NECESSÁRIAS -->
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
 
     <application
         android:allowBackup="false"
@@ -16,10 +16,10 @@
         android:persistent="true"
         android:theme="@style/Theme.LiveVideobes">
 
-        <!-- ACTIVITY PRINCIPAL / KIOSK / LAUNCHER -->
+        <!-- ACTIVITY PRINCIPAL / LAUNCHER / KIOSK -->
         <activity
             android:name=".PlayerActivity"
-            android:exported="false"
+            android:exported="true"
             android:launchMode="singleTask"
             android:screenOrientation="landscape"
             android:excludeFromRecents="true"
@@ -36,6 +36,17 @@
             </intent-filter>
 
         </activity>
+
+        <!-- TELA DE ACEITE DO KIOSK -->
+        <activity
+            android:name=".SetupActivity"
+            android:exported="false"
+            android:screenOrientation="landscape" />
+
+        <!-- SERVICE PARA REINICIAR EM CASO DE CRASH -->
+        <service
+            android:name=".RestartService"
+            android:exported="false" />
 
         <!-- RECEIVER: AUTOSTART NO BOOT -->
         <receiver
@@ -60,4 +71,5 @@
         </receiver>
 
     </application>
+
 </manifest>
