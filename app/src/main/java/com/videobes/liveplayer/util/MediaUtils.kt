@@ -1,29 +1,39 @@
 package com.videobes.liveplayer.util
 
-import com.videobes.liveplayer.model.MediaFile
-import java.io.File
+import android.net.Uri
 
 object MediaUtils {
 
-    private val videos = listOf("mp4", "mov", "avi", "mkv")
-    private val images = listOf("jpg", "jpeg", "png")
+    private val videoExt = listOf("mp4", "mov", "mkv", "avi", "webm")
+    private val imageExt = listOf("jpg", "jpeg", "png", "webp")
 
-    fun loadMedia(): List<MediaFile> {
-        val dir = File("/storage/emulated/0/LiveVideobes/media")
-        if (!dir.exists()) dir.mkdirs()
+    /**
+     * Retorna true se a Uri for de vídeo.
+     */
+    fun isVideo(uri: Uri): Boolean {
+        val name = uri.toString().lowercase()
+        return videoExt.any { name.endsWith(it) }
+    }
 
-        val files = dir.listFiles() ?: return emptyList()
+    /**
+     * Retorna true se a Uri for de imagem.
+     */
+    fun isImage(uri: Uri): Boolean {
+        val name = uri.toString().lowercase()
+        return imageExt.any { name.endsWith(it) }
+    }
 
-        val list = files.mapNotNull { f ->
-            val ext = f.extension.lowercase()
+    /**
+     * Define duração padrão para imagens.
+     * (Pode virar configurável pelo painel depois)
+     */
+    fun imageDurationSeconds(): Int = 10
 
-            when {
-                videos.contains(ext) -> MediaFile(f, isVideo = true)
-                images.contains(ext) -> MediaFile(f, isVideo = false, duration = 6)
-                else -> null
-            }
-        }
-
-        return list.shuffled()
+    /**
+     * Só retorna a extensão minúscula.
+     */
+    fun extension(uri: Uri): String {
+        val str = uri.toString().lowercase()
+        return str.substringAfterLast('.', "")
     }
 }
