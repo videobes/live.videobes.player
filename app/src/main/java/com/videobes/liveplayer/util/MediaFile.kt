@@ -1,9 +1,18 @@
 package com.videobes.liveplayer.model
 
-import java.io.File
+import android.net.Uri
 
+/**
+ * Representa um item de mídia universal no Live Videobes.
+ *
+ * Usado para futura cache, pré-download, metadados,
+ * controle de duração e playlists inteligentes.
+ *
+ * Sempre funciona com URI (SAF), nunca com java.io.File.
+ */
 data class MediaFile(
-    val file: File,
+    val uri: Uri,
+    val name: String,
     val isVideo: Boolean,
-    val duration: Int = 6      // usado somente para imagens
+    val durationSeconds: Int = 10   // padrão para imagens
 )
