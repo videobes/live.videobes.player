@@ -7,6 +7,14 @@ object Prefs {
     private const val NAME = "live_prefs"
     private const val KEY_SETUP_DONE = "setup_done"
     private const val KEY_MEDIA_URI = "media_uri"
+    private const val KEY_KIOSK = "kiosk_accepted"
+
+    fun isKioskAccepted(ctx: Context): Boolean =
+        prefs(ctx).getBoolean(KEY_KIOSK, false)
+
+    fun setKioskAccepted(ctx: Context, accepted: Boolean) =
+        prefs(ctx).edit().putBoolean(KEY_KIOSK, accepted).apply()
+
 
     private fun prefs(ctx: Context) =
         ctx.getSharedPreferences(NAME, Context.MODE_PRIVATE)
