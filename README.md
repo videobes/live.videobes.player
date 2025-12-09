@@ -1,6 +1,4 @@
-<p align="center">
-  <img src="assets/livevideobes_intro.jpg" width="900" alt="LiveVideobes Player Intro"/>
-</p>
+  <img src="assets/livevideobes_intro.jpg" width="900" alt="LiveVideobes Player Intro"/><p>
 
 # 💜 LiveVideobes Player – Android Kiosk Digital Signage
 
