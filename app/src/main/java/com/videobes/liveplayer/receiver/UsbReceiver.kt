@@ -4,19 +4,21 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Handler
+import android.os.Looper
+import com.videobes.liveplayer.usb.UsbImportDialog
 
-class UsbReceiver(private val onUsbDetected: (Uri) -> Unit) : BroadcastReceiver() {
+class UsbReceiver : BroadcastReceiver() {
 
-    override fun onReceive(context: Context?, intent: Intent?) {
-        if (intent == null || context == null) return
+    override fun onReceive(context: Context, intent: Intent) {
 
-        val action = intent.action ?: return
+        if (intent.action != Intent.ACTION_MEDIA_MOUNTED) return
 
-        if (action == Intent.ACTION_MEDIA_MOUNTED) {
-            val usbUri = intent.data
-            if (usbUri != null) {
-                onUsbDetected(usbUri)
-            }
+        val usbUri: Uri = intent.data ?: return
+
+        // Receiver não roda na UI thread → garante segurança
+        Handler(Looper.getMainLooper()).post {
+            UsbImportDialog.show(context)
         }
     }
 }
