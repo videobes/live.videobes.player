@@ -32,3 +32,24 @@ google-services.json
 
 # Android Profiling
 *.hprof
+
+# Gradle
+.gradle/
+build/
+
+# Android Studio / IntelliJ
+.idea/
+*.iml
+
+# Builds do app
+app/build/
+
+# Arquivos locais
+local.properties
+
+# Logs e relatórios
+build/reports/
+
+# Kotlin / cache
+app/build/kotlin/
+

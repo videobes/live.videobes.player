@@ -1,6 +1,7 @@
 package com.videobes.liveplayer
 
 import android.app.Activity
+import com.videobes.liveplayer.util.BootUtils
 import android.content.Intent
 import android.net.Uri
 import android.os.*
@@ -283,6 +284,8 @@ class PlayerActivity : AppCompatActivity() {
     }
 
     // BACK: 3 toques em menos de 2s pra abrir admin (opção extra)
+
+    @Suppress("MissingSuperCall")
     override fun onBackPressed() {
         val now = System.currentTimeMillis()
         if (now - lastBack < 2000) {
@@ -296,7 +299,7 @@ class PlayerActivity : AppCompatActivity() {
             showAdmin()
             backCount = 0
         }
-        // não chama super, pra não fechar
+        // NÃO chama super.onBackPressed() propositalmente (modo kiosk)
     }
 
     // kiosk visual sempre reaplicado quando volta pro foco
